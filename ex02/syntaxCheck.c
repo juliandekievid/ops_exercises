@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 #include "syntaxCheck.h"
-
+#include "string.h"
 
 // Test whether an argument is one character long and has the correct value (e,p,w):
 ErrCode TestType(char *printMethod) {
@@ -30,7 +30,15 @@ ErrCode TestType(char *printMethod) {
 ErrCode TestNr(char *numberOfTimes) {
   ErrCode fout = NO_ERR;
   
-  // Add the missing code
+   int length = strlen(numberOfTimes);
+   for(int i = 0; i < length;){
+   if(numberOfTimes[i] == '-')
+      {fout = ERR_NR;}
+   else {fout = NO_ERR;}
+   i++;
+   break;
+}
+
   
   return fout;
 }
@@ -40,7 +48,11 @@ ErrCode TestNr(char *numberOfTimes) {
 ErrCode TestChar(char *printChar) {
   ErrCode fout = NO_ERR;
   
-  // Add the missing code
+   int length = strlen(printChar);
+   if(length != 1){
+   fout = ERR_CHAR;
+   }
+   else{fout = NO_ERR;}
   
   return fout;
 }
