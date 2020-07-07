@@ -1,32 +1,73 @@
 //  OPS exercise 1: Command-line parameters
-
+//
 // Include the needed header files
 #include <stdio.h>    // file IO, perror()
 #include <string.h>   // str(n)cpy()
 #include <stdbool.h>  // Bool type
+#include <stdlib.h>
+#include <getopt.h>
 
 // Function prototypes:
 void print_help();
 void read_file(char *fileName, bool lastLine);
 void print_env(char* envp[]);
+bool check_file(char *fileName);
 
-
-int main(int argc, char* argv[], char* envp[]) {
-  // If no arguments are given, print help
-  
+// If no arguments are given, print help
+int main(int argc, char *argv[], char* envp[]){
+  int c;
+  //  int digit_optind = 0;
+  //    print_help();
   // Set up struct option array long_options[]
-  
-  // Scan the different command-line arguments and options
-  return 0;
+    while (1) {
+      //int this_option_optind = optind ? optind : 1;
+    int option_index = 0;
+    static struct option long_options[] = {
+      {"help",    no_argument,       0,  'h' },
+      {"file",    required_argument, 0,  'f' },
+      {"end",     required_argument, 0,  'e' },
+      {"env",     no_argument,       0,  'v' },
+      {0,         0,                 0,   0  }
+    };
+   
+    c = getopt_long(argc, argv, "hf:e:v",long_options, &option_index);
+       
+    if(argc == 1 ){c = 'h';}
+    if (c == -1){break;}
+    switch (c) {
+      case 'h':
+        print_help();
+        break;
+      case 'f':
+        printf("option f (value '%s'\n,optarg");
+         read_file(optarg,0);
+        break;
+      case 'e':
+        printf("option e (value '%s'\n,optarg");
+	      read_file(optarg,1);
+
+        break;
+      case 'v':
+        print_env(envp);
+        break;
+      case '0':
+        break;
+    default:
+            print_help();
+    }break;
+    }
+
+   exit(EXIT_SUCCESS);
 }
+
 
 
 // Print program help:
 void print_help() {
   printf("Available program options:\n\
-  -h --help                  Print this help and exit\n\
+  -h --help                  Print this help and exitblablabla\n\
   -f --file <file name.txt>  Specify a text file and print its FIRST line\n\
-  -e --end  <file name.txt>  Specify a text file and print its LAST line\n \
+  -e --end  <file name.txt>  Specify a text file and print its LAST line\n\
   -v --env                   Print environment variables\n");
 }
 
@@ -78,3 +119,7 @@ void print_env(char* envp[]) {
   
   printf("\nA total of %i environment variables was found.\n\n", nPar);
 }
+//}
+
+
+
