@@ -14,8 +14,14 @@
 ErrCode TestType(char *printMethod) {
   ErrCode fout = NO_ERR;
   
-  // Add the missing code
-  
+   int length = strlen(printMethod);
+   if (length == 1) {   
+      if ((printMethod[0] == 'e') || (printMethod[0] == 'p') || (printMethod[0] == 'w')) {
+      fout = NO_ERR;
+      }else {fout = ERR_TYPE;}
+
+   }else {fout = ERR_TYPE;}
+   
   return fout;
 }
 
