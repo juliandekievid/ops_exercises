@@ -15,9 +15,10 @@
 
 
 
-void parentProces(void);
-void childOneProces(void);
-void childTwoProces(void);
+void parentProces(char *argv[]);
+void childOneProces(char *argv[]);
+void childTwoProces(char *argv[]);
+void childThreeProces(char *argv[]);
 
 
 char printMethod, printChar, printFirstChar,printSecondChar, printThirdChar;
@@ -29,15 +30,10 @@ int main(int argc, char *argv[]) {
   
   err = SyntaxCheck(argc, argv);  // Check the command-line parameters
   if(err != NO_ERR) {
-    DisplayError(err);        // Print an error message
-printf(" hello");
+    DisplayError(err);        // Print an error message  
+  printf(" hello");
   } else {
-    printMethod = argv[1][0];
     numOfTimes = strtoul(argv[2], NULL, 10);  // String to unsigned long
-    niceIncr = argv[3][0];
-    printFirstChar = argv[4][0];
-    printSecondChar = argv[5][0];
-    printThirdChar = argv[6][0];
   }
   printf("\n");  // Newline at end
 
@@ -55,32 +51,40 @@ return 0;
 }
 
 void childOneProces(void){
-
-
-   nice(0);
-   printChar = printFirstChar;
-   PrintCharacters(printMethod, numOfTimes, printChar);  // Print character printChar numOfTimes times using method printMethod
-  }
+  //printf("Child one");
+  nice(0);
+  execl("/home/student/ops_exercises/ex02/display", "display", argv[1], argv[2], argv[4], (char *) NULL);
+  perror("ChildOne");
+ }
 
 void childTwoProces(void){
    int incr = niceIncr;
    nice(incr);
-   printChar = printSecondChar;
+  //printf("Child one");
+  execl("/home/student/ops_exercises/ex02/display", "display",  argv[1], argv[2], argv[5], (char *) NULL);
+  perror("ChildTwo");   
+}
 
-   PrintCharacters(printMethod, numOfTimes, printChar);  // Print character printChar numOfTimes times using method printMethod
-  }
+void ChildThreeProces(char *argv[]){
+  //printf("Child three");
+  int incr = niceIncrement * 2;
+  nice(incr);
+ execl("/home/student/ops_exercises/ex02/display", "display",  argv[1], argv[2], argv[5], (char *) NULL);
+  perror("ChildThree");
+}
 
 void parentProces(void){
    pid_t pid = fork();
    if (pid < 0){
    printf("rror, failed to fork");}
-   else if (pid == 0) {childTwoProces();}
+   else if (pid == 0) {childTwoProces(argv);}c
 
-   else { 
-   int incr = 2*niceIncr;
-   nice(incr);
-   printChar = printThirdChar;
-   PrintCharacters(printMethod, numOfTimes, printChar);  // Print character printChar numOfTimes times using method     printMethod
+   pid = fork();
+   if (pid < 0) {
+   printf("rror, failed to fork");}
+   else if (pid == 0) {childThreeProces(argv);}
+   
+   wait(NULL);
    wait(NULL);
    wait(NULL);
    //printf(
