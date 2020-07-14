@@ -65,7 +65,7 @@ void childTwoProces(char *argv[]){
   perror("ChildTwo");   
 }
 
-void ChildThreeProces(char *argv[]){
+void childThreeProces(char *argv[]){
   //printf("Child three");
   int incr = niceIncr * 2;
   nice(incr);
