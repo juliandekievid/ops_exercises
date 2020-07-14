@@ -87,5 +87,4 @@ void parentProces(char *argv[]){
    wait(NULL);
    wait(NULL);
    //printf(
-   }
 }
