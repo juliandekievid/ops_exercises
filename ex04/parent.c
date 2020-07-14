@@ -67,7 +67,7 @@ void childTwoProces(char *argv[]){
 
 void ChildThreeProces(char *argv[]){
   //printf("Child three");
-  int incr = niceIncrement * 2;
+  int incr = niceIncr * 2;
   nice(incr);
  execl("/home/student/ops_exercises/ex02/display", "display",  argv[1], argv[2], argv[5], (char *) NULL);
   perror("ChildThree");
@@ -77,8 +77,7 @@ void parentProces(char *argv[]){
    pid_t pid = fork();
    if (pid < 0){
    printf("rror, failed to fork");}
-   else if (pid == 0) {childTwoProces(argv);}c
-
+   else if (pid == 0) {childTwoProces(argv);}
    pid = fork();
    if (pid < 0) {
    printf("rror, failed to fork");}
