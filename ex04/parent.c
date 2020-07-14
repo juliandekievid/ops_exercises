@@ -81,7 +81,7 @@ void parentProces(char *argv[]){
    pid = fork();
    if (pid < 0) {
    printf("rror, failed to fork");}
-   //else if (pid == 0) {childThreeProces(argv);}
+   else if (pid == 0) {childThreeProces(argv);}
    
    wait(NULL);
    wait(NULL);
