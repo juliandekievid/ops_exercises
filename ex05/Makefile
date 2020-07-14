@@ -4,22 +4,19 @@
 all: printversion display
 
 # Link object files and create a binary executable:
-display: display.o displayFunctions.o syntaxCheck.o
-	gcc -Wall -o display display.o displayFunctions.o syntaxCheck.o
+display: parent.o displayFunctions.o syntaxCheck.o
+	gcc -Wall -o display parent.o displayFunctions.o syntaxCheck.o
 
 # Compile C-files and create object files (.o).
 # The option -c ensures no linking takes place:
-display.o: display.c displayFunctions.h errorCodes.h
-	gcc -c -Wall display.c
+parent.o: parent.c displayFunctions.h errorCodes.h
+	gcc -c -Wall parent.c
 
 displayFunctions.o: displayFunctions.c displayFunctions.h syntaxCheck.h errorCodes.h
 	gcc -c -Wall displayFunctions.c
 
-syntaxCheck.o: 
-	gcc -c -Wall syntaxCheck.c
-
 clean:
-	rm -f displayFunctions.o display.o
+	rm -f displayFunctions.o parent.o
 
 cleanall: clean
 	rm -f display
