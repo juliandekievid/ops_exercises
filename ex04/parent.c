@@ -42,22 +42,22 @@ int main(int argc, char *argv[]) {
   {
   case -1: printf("Error, failed to fork"); 
      break;
-  case 0: childOneProces(); 
+  case 0: childOneProces(argv); 
      break;
-  default: parentProces();
+  default: parentProces(argv);
   }
 
 return 0;
 }
 
-void childOneProces(void){
+void childOneProces(char *argv[]){
   //printf("Child one");
   nice(0);
   execl("/home/student/ops_exercises/ex02/display", "display", argv[1], argv[2], argv[4], (char *) NULL);
   perror("ChildOne");
  }
 
-void childTwoProces(void){
+void childTwoProces(char *argv[]){
    int incr = niceIncr;
    nice(incr);
   //printf("Child one");
@@ -73,7 +73,7 @@ void ChildThreeProces(char *argv[]){
   perror("ChildThree");
 }
 
-void parentProces(void){
+void parentProces(char *argv[]){
    pid_t pid = fork();
    if (pid < 0){
    printf("rror, failed to fork");}
