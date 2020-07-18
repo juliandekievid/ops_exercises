@@ -1,3 +1,4 @@
+// This program starts filter.c and redirects inputs and outputs using pipes
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
