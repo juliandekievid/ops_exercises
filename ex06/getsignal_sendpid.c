@@ -1,13 +1,15 @@
-//getsignal.c program to receive signals and act on them
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <signal.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 char number = '1';
 void sigHandler(int sig);
+int fd;
 
 int main(void)
 {
@@ -20,12 +22,19 @@ int main(void)
   sigemptyset(&act.sa_mask);
 
   //install SHR
-  sigaction(25, &act, &oldact);//SHR handles signal number 25
+  sigaction(25, &act, &oldact);
+
+  pid_t PID = getpid();
+
+
+  fd = open("PIDpipe", O_WRONLY);
+  write(fd, &PID, sizeof(PID));
+  close(fd);
+
+  unlink("PIDfifo");
+  printf("PID: %d\n", PID);
   
-    if(number > '9')
-    {
-      number = '0';
-    }
+  if(number > '9'){number = '0';}
   
   while(1){
     write(1, &number, 1);
@@ -37,6 +46,6 @@ int main(void)
 //SHR using sa_handler
 void sigHandler(int sig)
 {
-  printf("signal caught: %d\n", sig);
+  printf("\nsignal caught: %d\n", sig);
   number++;
 }
