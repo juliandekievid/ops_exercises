@@ -1,5 +1,3 @@
-//	This program will start filter.c and redirect input and output using pipes
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
