@@ -8,7 +8,7 @@
 
 
 CXX = gcc
-CXXFLAGS=-g -O0 -Wall -Wextra
+CXXFLAGS=-g -O0 -Wall -Wextra -pthread
 
 EXECUTABLE = sharedQueue
 SOURCES = Queue.c sharedQueue.c

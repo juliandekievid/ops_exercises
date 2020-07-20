@@ -57,6 +57,10 @@ int main() {
   createQueue(&queue, data);
   showQueue(&queue);
   data.intVal++;
+
+  printf("\nDelete the current queue:\n");
+  deleteQueue(&queue);
+  showQueue(&queue);
   
   return 0;
 }
