@@ -60,3 +60,40 @@ int main()
    pthread_join(thread_CA_ID, NULL);
 
 }
+
+void *producerThread(void *arg){
+   data_t *data = arg;
+   while(1)
+      {
+         sleep(arguments->intVal);
+         pthread_mutex_lock(&lock);
+         data_t *arguments = arg;
+      
+      if(backQueue(&queue) == NULL){
+         createQueue(&queue, *arguments);      
+      }else{
+         pushQueue(&queue, *arguments);      
+      }
+         pthread_mutex_unlock(&lock);      
+      if(crtl_C_pressed == 1){
+         activeThreads--;
+         pthread_exit(NULL);      
+      }
+      }
+}
+
+void *consumerThread(void *arg){
+   while(1){
+      sleep(15);   
+      pthread_mutex_lock(&lock);
+      showQueue(&queue);
+      FP = fopen("textfile.txt", "w");
+      const node
+      
+   }
+}
+
+void sigHandler(int signal){
+   ctrl_C_pressed = 1;
+   printf("Program terminated by Crtl-C");
+}
