@@ -1,10 +1,16 @@
-Queue contains 8 nodes:
-Last node: 0x7f19cc0010f0
-pNode = 0x7f19cc0008c0  Data = '2' 'Thread producer A'  nextN = 0x7f19cc0008f0
-pNode = 0x7f19cc0008f0  Data = '2' 'Thread producer A'  nextN = 0x7f19cc000920
-pNode = 0x7f19cc000920  Data = '2' 'Thread producer A'  nextN = 0x7f19cc000950
-pNode = 0x7f19cc000950  Data = '2' 'Thread producer A'  nextN = 0x7f19cc000980
-pNode = 0x7f19cc000980  Data = '2' 'Thread producer A'  nextN = 0x7f19cc0009b0
-pNode = 0x7f19cc0009b0  Data = '2' 'Thread producer A'  nextN = 0x7f19cc0010c0
-pNode = 0x7f19cc0010c0  Data = '3' 'Thread producer B'  nextN = 0x7f19cc0010f0
-pNode = 0x7f19cc0010f0  Data = '4' 'Thread procuder C'  nextN = 0x7f19cc0008c0
+Queue contains 14 nodes:
+Last node: 0x7f79540009e0
+pNode = 0x7f79540008c0  Data = '2' 'Thread producer A'  nextN = 0x7f794c0008c0
+pNode = 0x7f794c0008c0  Data = '3' 'Thread producer B'  nextN = 0x7f79500008c0
+pNode = 0x7f79500008c0  Data = '4' 'Thread procuder C'  nextN = 0x7f79540008f0
+pNode = 0x7f79540008f0  Data = '2' 'Thread producer A'  nextN = 0x7f794c0008f0
+pNode = 0x7f794c0008f0  Data = '3' 'Thread producer B'  nextN = 0x7f7954000920
+pNode = 0x7f7954000920  Data = '2' 'Thread producer A'  nextN = 0x7f79500008f0
+pNode = 0x7f79500008f0  Data = '4' 'Thread procuder C'  nextN = 0x7f7954000950
+pNode = 0x7f7954000950  Data = '2' 'Thread producer A'  nextN = 0x7f794c000920
+pNode = 0x7f794c000920  Data = '3' 'Thread producer B'  nextN = 0x7f7954000980
+pNode = 0x7f7954000980  Data = '2' 'Thread producer A'  nextN = 0x7f7950000920
+pNode = 0x7f7950000920  Data = '4' 'Thread procuder C'  nextN = 0x7f794c000950
+pNode = 0x7f794c000950  Data = '3' 'Thread producer B'  nextN = 0x7f79540009b0
+pNode = 0x7f79540009b0  Data = '2' 'Thread producer A'  nextN = 0x7f79540009e0
+pNode = 0x7f79540009e0  Data = '2' 'Thread producer A'  nextN = 0x7f79540008c0

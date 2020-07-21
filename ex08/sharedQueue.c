@@ -17,16 +17,14 @@
 data_t thread_PA = {2, "Thread producer A"}; // writes data to queue every 2 seconds
 data_t thread_PB = {3, "Thread producer B"}; // writes data to queue every 3 seconds
 data_t thread_PC = {4, "Thread procuder C"}; // writes data to queue every 4 seconds
-data_t thread_CA = {1, "Thread consumer A"}; 
+data_t thread_CA = {}; 
 
 void *producerThread(void *arg); // procucing data to queue 
 void *consumerThread(void *arg); // consumes data from queue
-
+queue_t queue = {NULL};
 pthread_mutex_t lock;
 
 int activeThreads = 0;
-
-queue_t queue = {NULL};
 
 int ctrl_C_pressed = 0;
 
@@ -37,9 +35,8 @@ FILE *FP;
 
 int main()
 {
-   pthread_t thread_PA_ID, thread_PB_ID, thread_PC_ID, thread_CA_ID;
+   pthread_mutex_init(&lock, NULL);   
    struct sigaction act, oldact;
-
    // Define SHR
    memset(&act, '\0', sizeof(act));
    act.sa_handler = sigHandler;
@@ -48,46 +45,52 @@ int main()
    // Install SHR
    sigaction(SIGINT, &act, &oldact);
 
-   pthread_create(&thread_PA_ID, NULL, &producerThread, (void *)&thread_PA);
-   pthread_join(thread_PA_ID, NULL);
+   pthread_t thread_ID;
+   pthread_create(&thread_ID, NULL, &producerThread, (void *)&thread_PA);
+   pthread_create(&thread_ID, NULL, &producerThread, (void *)&thread_PB);
+   pthread_create(&thread_ID, NULL, &producerThread, (void *)&thread_PC);
+   pthread_create(&thread_ID, NULL, &consumerThread, (void *)&thread_CA);
+   pthread_join(thread_ID, NULL);
+   pthread_mutex_destroy(&lock);
 
-   pthread_create(&thread_PB_ID, NULL, &producerThread, (void *)&thread_PB);
-   pthread_join(thread_PB_ID, NULL);
-
-   pthread_create(&thread_PC_ID, NULL, &producerThread, (void *)&thread_PC);
-   pthread_join(thread_PC_ID, NULL);
-
-   pthread_create(&thread_CA_ID, NULL, &consumerThread, NULL);  
-   pthread_join(thread_CA_ID, NULL);
-   
+   return 0;
 }
 
 void *producerThread(void *arg){
+   
    //data_t *data = arg;
+   activeThreads++;
+   
+   data_t *arguments = arg;
    while(1)
       {
-         data_t *arguments = arg;
+  //       printf("active threads: %d\n",activeThreads);         
          sleep(arguments->intVal);
          pthread_mutex_lock(&lock);
-         
+        
       
-      if(backQueue(&queue) == NULL){
-         createQueue(&queue, *arguments);      
+      if(sizeQueue(&queue) == 0){
+         createQueue(&queue, *arguments);  
+        
       }else{
          pushQueue(&queue, *arguments);      
       }
-         pthread_mutex_unlock(&lock);      
+      pthread_mutex_unlock(&lock);             
+
       if(ctrl_C_pressed == 1){
          activeThreads--;
-         pthread_exit(NULL);      
+//         printf("thread closed. active threads: %d\n", activeThreads);                  
+         pthread_exit(NULL);       
+         
       }
-      }
+      }   
 }
 
 void *consumerThread(void *arg){
-   while(1){
+  while(1){
    if(arg == NULL){;}
-   sleep(15);   
+  sleep(15);   
+//   printf("15 seconds counter\nactive threads: %d\n\n", activeThreads);
    pthread_mutex_lock(&lock);
    FP = fopen("queue.txt", "w");
  
@@ -107,15 +110,14 @@ void *consumerThread(void *arg){
    }
    fclose(FP);
    deleteQueue(&queue);
+ //  printf("\n\n\n\n\n\n\n\n");
    pthread_mutex_unlock(&lock);
 
    if(activeThreads <= 0){
       pthread_exit(NULL);
+     
    }      
-} 
-  return 0;
-
-
+}
 }
 
 void sigHandler(int signal){
