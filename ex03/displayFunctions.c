@@ -15,13 +15,16 @@
 // Check the command-line parameters:
 ErrCode SyntaxCheck(int argc, char **argv) {
   ErrCode errCode = NO_ERR;
-  if(argc != NUM_OF_PARS) {
-    errCode = ERR_PARS;
-  } else {
+  //if(argc != NUM_OF_PARS) {
+  //  errCode = ERR_PARS;
+  //} else {
     errCode = TestType(argv[1]);                        // Test whether argument 1 has the correct value (print type)
     if(errCode == NO_ERR) errCode = TestNr(argv[2]);    // Test whether argument 2 contains a positive integer (number of times)
-    if(errCode == NO_ERR) errCode = TestChar(argv[3]);  // Test whether argument 3 contains only one character (print character)
-  }
+    if(errCode == NO_ERR) errCode = TestNr(argv[3]);    // Test whether argument 3 contains a positive integer (nice value)
+    if(errCode == NO_ERR) errCode = TestChar(argv[4]);  // Test whether argument 4 contains only one character (print character)
+    if(errCode == NO_ERR) errCode = TestChar(argv[5]);  // Test whether argument 5 contains only one character (print character)
+    if(errCode == NO_ERR) errCode = TestChar(argv[6]);  // Test whether argument 6 contains only one character (print character)
+  //}
   return errCode;
 }
 
@@ -57,8 +60,7 @@ void DisplayError(ErrCode errCode) {
 void PrintCharacters(char printMethod, unsigned long numberOfTimes, char printChar) {
   unsigned long index = 0;
   char echoCommand[] = "/bin/echo -n  ";
-  
-  switch(printMethod) {
+switch(printMethod) {
   case 'e':
     echoCommand[13] = printChar;  // Put character to be printed in string
     for(index = 0; index < numberOfTimes; index++) {
