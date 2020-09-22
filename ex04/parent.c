@@ -31,20 +31,42 @@ int main(int argc, char *argv[]) {
   err = SyntaxCheck(argc, argv);  // Check the command-line parameters
   if(err != NO_ERR) {
     DisplayError(err);        // Print an error message  
-  printf(" hello");
+  
   } else {
-    numOfTimes = strtoul(argv[2], NULL, 10);  // String to unsigned long
-  }
+   // numOfTimes = strtoul(argv[2], NULL, 10);  // String to unsigned long
+  niceValue = strtoul(argv[3], NULL, 10);
   printf("\n");  // Newline at end
 
-  pid_t pid = fork();
-  switch(pid)
+  //pid_t pid = ;
+  switch(fork())  //Parent and child 1 carry out switch()
   {
-  case -1: printf("Error, failed to fork"); 
-     break;
-  case 0: childOneProces(argv); 
-     break;
-  default: parentProces(argv);
+  case -1: 
+      printf("Error, failed to fork"); 
+      break;
+  case 0: //Child one
+      nice(niceValue);
+      execl("../ex02/display", "display", argv[1], argv[2], argv[4], (char *) NULL);
+      printf("Starting child failed\n");
+      exit(1);
+      break;
+  default: parentProces(argv); //Parent
+      switch(fork()){ //create child 2
+      
+      
+      }
+      
+      pid_t pid = fork();
+   if (pid < 0){
+   printf("rror, failed to fork");}
+   else if (pid == 0) {childTwoProces(argv);}
+   pid = fork();
+   if (pid < 0) {
+   printf("rror, failed to fork");}
+   else if (pid == 0) {childThreeProces(argv);}
+   
+   wait(NULL);
+   wait(NULL);
+   wait(NULL);
   }
 
 return 0;
