@@ -53,7 +53,7 @@ return 0;
 void childOneProces(char *argv[]){
   //printf("Child one");
   nice(0);
-  execl("/home/student/ops_exercises/ex02/display", "display", argv[1], argv[2], argv[4], (char *) NULL);
+  execl("../ex02/display", "display", argv[1], argv[2], argv[4], (char *) NULL);
   perror("ChildOne");
  }
 
@@ -61,7 +61,7 @@ void childTwoProces(char *argv[]){
    int incr = niceIncr;
    nice(incr);
   //printf("Child one");
-  execl("/home/student/ops_exercises/ex02/display", "display",  argv[1], argv[2], argv[5], (char *) NULL);
+  execl("../ex02/display", "display",  argv[1], argv[2], argv[5], (char *) NULL);
   perror("ChildTwo");   
 }
 
@@ -69,7 +69,7 @@ void childThreeProces(char *argv[]){
   //printf("Child three");
   int incr = niceIncr * 2;
   nice(incr);
- execl("/home/student/ops_exercises/ex02/display", "display",  argv[1], argv[2], argv[5], (char *) NULL);
+ execl("../ex02/display", "display",  argv[1], argv[2], argv[6], (char *) NULL);
   perror("ChildThree");
 }
 
