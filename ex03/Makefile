@@ -15,9 +15,6 @@ display.o: display.c displayFunctions.h errorCodes.h
 displayFunctions.o: displayFunctions.c displayFunctions.h syntaxCheck.h errorCodes.h
 	gcc -c -Wall displayFunctions.c
 
-syntaxCheck.o: 
-	gcc -c -Wall syntaxCheck.c
-
 clean:
 	rm -f displayFunctions.o display.o
 

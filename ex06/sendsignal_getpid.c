@@ -6,19 +6,24 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-int main(int argc, char *argv[])
+int main(int argc, char *argv[], char* envp[])
 {
   int fd;
-  pid_t PID;
+  int PID;
+printf("Program started. Please open ./getsignal_sendpid\n");
+//  pid_t PID = getpid();
   fd = open("PIDpipe" , O_RDONLY);
   read(fd, &PID, sizeof(PID));
-
   close(fd);    
-  printf("PID of getsignal = %d\n",PID);
+  printf("Starting sending kill commands to PID = %i\n",PID);
+  do 
+	{
+	sleep(3); //sleep for 3 sec
+	kill(PID, 25);
+	printf("Kill is sent to PID = %i\n",PID);
+	}
+  while(!kill(PID, 0));
+    printf("Proces %i is stopped. Quit application\n",PID);
 
-  while(1)
-    {
-      kill(PID, 25);
-      sleep(3);
-    }
+    
 }

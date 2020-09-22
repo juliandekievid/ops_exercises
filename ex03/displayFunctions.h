@@ -46,7 +46,7 @@ void DisplayError(ErrCode errCode);
   Output:		None
 */
 
-void PrintCharacters(char prType, unsigned long numberOfTimes, char prChar);
+void PrintCharacters(char printMethod, unsigned long numberOfTimes, char printChar);
 /*
   Input:    prType = printing method:
             'e' = echo

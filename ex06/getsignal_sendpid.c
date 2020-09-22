@@ -7,45 +7,47 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-char number = '1';
+
+int count = 0;
 void sigHandler(int sig);
 int fd;
 
-int main(void)
+int main(int argc, char* argv[], char* envp[])
 {
-  struct sigaction act, oldact;
+  struct sigaction act;
+  act.sa_handler = &sigHandler;
+  sigaction(25, &act, NULL);
+printf("Program started. Please open ./sendsignal_getpid\n");
 
-  //define SHR;
-  memset(&act, '\0', sizeof(act));
-  act.sa_handler = sigHandler;
-  act.sa_flags = 0;
-  sigemptyset(&act.sa_mask);
-
-  //install SHR
-  sigaction(25, &act, &oldact);
-
-  pid_t PID = getpid();
+  int PID = getpid();
 
 
   fd = open("PIDpipe", O_WRONLY);
   write(fd, &PID, sizeof(PID));
   close(fd);
 
-  unlink("PIDfifo");
-  printf("PID: %d\n", PID);
+
+  printf("PID: %d\n", getpid());
   
-  if(number > '9'){number = '0';}
+//  if(number > '9'){number = '0';}
   
-  while(1){
+  do 
+  {
+    char number = '0' + count;
     write(1, &number, 1);
     sleep(1);
-  }
-  return 0;
+  }while(1);
+
 }
 
 //SHR using sa_handler
 void sigHandler(int sig)
 {
-  printf("\nsignal caught: %d\n", sig);
-  number++;
+  if(sig == 25)
+    {
+     count++;
+     if(count > 9){
+	count = 0;
+}
+}
 }
