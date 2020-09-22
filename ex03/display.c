@@ -13,76 +13,57 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-
-
-void parentProces(void);
-void childOneProces(void);
-void childTwoProces(void);
-
-
-char printMethod, printChar, printFirstChar,printSecondChar, printThirdChar;
+char printMethod, printChar[3];
 unsigned long int numOfTimes;
-unsigned int niceIncr;
+unsigned int niceValue;
 ErrCode err = NO_ERR;
+
 
 int main(int argc, char *argv[]) {
   
   err = SyntaxCheck(argc, argv);  // Check the command-line parameters
   if(err != NO_ERR) {
     DisplayError(err);        // Print an error message
-printf(" hello");
+
   } else {
     printMethod = argv[1][0];
     numOfTimes = strtoul(argv[2], NULL, 10);  // String to unsigned long
-    niceIncr = argv[3][0];
-    printFirstChar = argv[4][0];
-    printSecondChar = argv[5][0];
-    printThirdChar = argv[6][0];
-  }
-  printf("\n");  // Newline at end
+    niceIncr = strtoul(argv[3], NULL, 10);
+    printChar[0] = argv[4][0];
+    printChar[1] = argv[5][0];
+    printChar[2] = argv[6][0];
+  
+  
+  switch(fork()) {  // parent and child 1 carry out switch()
+    case -1: 
+        printf("Error, failed to fork"); 
+        break;
 
-  pid_t pid = fork();
-  switch(pid)
-  {
-  case -1: printf("Error, failed to fork"); 
-     break;
-  case 0: childOneProces(); 
-     break;
-  default: parentProces();
-  }
+    case 0:   // Child 1
+        nice(niceValue);
+        PrintCharacters(printMethod, numOfTimes, printChar[1]);  // Print character printChar numOfTimes times using method printMethod
+        break;
 
+    default: 
+        switch(fork()){
+          case -1:
+            printf("rror, failed to fork(1)");
+            break;
+          case 0:
+            nice(2*niceValue);
+            PrintCharacters(printMethod, numOfTimes, printChar[2]);  // Print character printChar numOfTimes times using method printMethod
+            break;
+          default:  // Parent
+            nice(0);
+            //wait(NULL);
+            PrintCharacters(printMethod, numOfTimes, printChar[0]);  // Print character printChar numOfTimes times using method printMethod
+            break;
+          }
+        break;
+    }
+
+  printf("\n"); // Newline at end
+  }
+  
 return 0;
-}
-
-void childOneProces(void){
-
-
-   nice(0);
-   printChar = printFirstChar;
-   PrintCharacters(printMethod, numOfTimes, printChar);  // Print character printChar numOfTimes times using method printMethod
-  }
-
-void childTwoProces(void){
-   int incr = niceIncr;
-   nice(incr);
-   printChar = printSecondChar;
-
-   PrintCharacters(printMethod, numOfTimes, printChar);  // Print character printChar numOfTimes times using method printMethod
-  }
-
-void parentProces(void){
-   pid_t pid = fork();
-   if (pid < 0){
-   printf("rror, failed to fork");}
-   else if (pid == 0) {childTwoProces();}
-
-   else { 
-   int incr = 2*niceIncr;
-   nice(incr);
-   printChar = printThirdChar;
-   PrintCharacters(printMethod, numOfTimes, printChar);  // Print character printChar numOfTimes times using method     printMethod
-   wait(NULL);
-   wait(NULL);
-   //printf(
-   }
 }
