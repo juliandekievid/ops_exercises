@@ -1,33 +1,36 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 #include <signal.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
+#include <unistd.h>
 
+#include <fcntl.h>
+#include <string.h>
 
 int count = 0;
 void sigHandler(int sig);
-int fd;
+
 
 int main(int argc, char* argv[], char* envp[])
 {
-  struct sigaction act;
-  act.sa_handler = &sigHandler;
-  sigaction(25, &act, NULL);
+  struct sigaction act, oldact;
+  memset(&act, '\0', sizeof(act));
+  act.sa_handler = sigHandler;
+  act.sa_flags = 0;
+  sigemptyset(&act.sa_mask);
+
+  sigaction(25, &act, &oldact);
 printf("Program started. Please open ./sendsignal_getpid\n");
 
   int PID = getpid();
-
+  int fd;
 
   fd = open("PIDpipe", O_WRONLY);
   write(fd, &PID, sizeof(PID));
   close(fd);
 
 
-  printf("PID: %d\n", getpid());
+  printf("The ID of the process is: %d\n\n", getpid());
   
 //  if(number > '9'){number = '0';}
   
@@ -46,8 +49,8 @@ void sigHandler(int sig)
   if(sig == 25)
     {
      count++;
-     if(count > 9){
+     if(count > 9)
 	count = 0;
 }
 }
-}
+
