@@ -65,6 +65,7 @@ int main(int argc, char *argv[]) {
             default:
               wait(NULL);
               wait(NULL);
+              printf("All children have finished\n");
               break;
           }   
           break;
