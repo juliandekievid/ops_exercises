@@ -45,7 +45,7 @@ void DisplayError(ErrCode errCode) {
   }
   
   printf("\nCorrect syntax:\n");
-  printf("  ./parent <print type> <number of times> <nice increment> <char 1> <char 2> <char 3>\n");
+  printf("  ./display <print type> <number of times> <nice increment> <char 1> <char 2> <char 3>\n");
   printf("  first parameter: <print type>: e, p or w\n");
   printf("  second parameter: <number of times>: positive integer\n");
   printf("  third parameter: <nice increment>: positive integer\n");
@@ -55,7 +55,7 @@ void DisplayError(ErrCode errCode) {
   printf("\n");  // Newline at end
 }
 
-
+/*
 // Print chacacter printChar numberOfTimes times using method printMethod:
 void PrintCharacters(char printMethod, unsigned long numberOfTimes, char printChar) {
   unsigned long index = 0;
@@ -81,3 +81,4 @@ switch(printMethod) {
     printf("INTERNAL ERROR: Unknown print type:  %s.  This should not happen!\n", &printMethod);
   }
 }
+*/
